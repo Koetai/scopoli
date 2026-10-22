@@ -93,9 +93,12 @@ async function runQueryAt(url, query) {
   } catch (e) {
     if (e.name === "AbortError") throw new Error("The query timed out after 120 seconds.");
     if (e instanceof TypeError) {
-      throw new Error(url.includes("localhost") || url.includes("127.0.0.1")
-        ? "Can't reach your endpoint. Is it running, does it send CORS headers, and did you allow local-network access in your browser?"
-        : "Network error — the endpoint may be down or unreachable.");
+      if (!/localhost|127\.0\.0\.1|\[::1\]/.test(url)) throw new Error("Network error — the endpoint may be down or unreachable.");
+      let msg = "Can't reach your endpoint. Is it running, and does it send CORS headers?";
+      if (location.protocol === "https:") {
+        msg += " Browsers may also stop a public https page from calling your own machine: allow local-network access if your browser asks, or run Scopoli locally — git clone https://github.com/Koetai/scopoli && cd scopoli && python3 -m http.server 8000 — and open http://localhost:8000.";
+      }
+      throw new Error(msg);
     }
     throw e;
   } finally {

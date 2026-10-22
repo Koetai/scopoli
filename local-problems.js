@@ -202,7 +202,11 @@ print(s.query().convert()["results"]["bindings"])`)}
         <tr><td><a href="#/p/COMU">Comunica</a></td><td>Querying files and federating sources</td><td>Node.js</td></tr>
       </table>
       <h3>Letting this page reach your machine</h3>
-      <p>Scopoli runs in your browser and sends queries straight to <code>http://localhost:…</code>. Two things make that work: the store must send <b>CORS</b> headers (each guide shows how), and Chrome may ask whether <i>koetai.github.io</i> may access devices on your local network — click <b>Allow</b>. Alternatively, run Scopoli itself locally with <code>python -m http.server</code> from a clone of the <a href="https://github.com/Koetai/scopoli" target="_blank">repository</a>.</p>`,
+      <p>Scopoli runs in your browser and sends queries straight to <code>http://localhost:…</code>. The store must send <b>CORS</b> headers; each guide shows how. Browsers are also wary of a public https page calling your own machine. Chrome asks whether <i>koetai.github.io</i> may access devices on your local network (click <b>Allow</b>), and some browsers or extensions simply block it. The dependable route is to run Scopoli itself locally:</p>
+      ${code(`git clone https://github.com/Koetai/scopoli
+cd scopoli
+python3 -m http.server 8000      # then open http://localhost:8000`)}
+      <p>Your progress is stored per site, so pick one address and stay with it.</p>`,
     task: `Run the <code>curl</code> example against Wikidata, then mark this step as done and choose a triplestore.`,
   },
   {
