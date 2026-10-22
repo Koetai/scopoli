@@ -41,9 +41,9 @@ riot --output=nt OFCO.owl > ../data/ofco.nt
 echo "== HOOM is OWL/XML, which triplestores can't read: convert with ROBOT"
 java -Xmx8G -jar ../tools/robot.jar convert --input "HOOM_en_${HOOM_VERSION}.owl" --format ttl --output hoom.ttl
 # A few HOOM IRIs contain [ or ], which are not allowed in IRIs. Percent-encode
-# them inside <...> only, so literals stay untouched.
-riot --output=nt hoom.ttl 2>/dev/null \
-  | perl -pe 's/<([^>]*)>/my $x=$1; $x=~s{\[}{%5B}g; $x=~s{\]}{%5D}g; "<$x>"/ge' > ../data/hoom.nt
+# them inside <...> only, then let riot check the result.
+perl -pe 's/<([^>]*)>/my $x=$1; $x=~s{\[}{%5B}g; $x=~s{\]}{%5D}g; "<$x>"/ge' hoom.ttl > hoom-clean.ttl
+riot --output=nt hoom-clean.ttl > ../data/hoom.nt
 
 echo "== Functional consequences: XML -> RDF, linked to ORDO and OFCO"
 python3 "$HERE/fc_to_rdf.py" en_funct_consequences.xml OFCO.owl > fc.ttl
