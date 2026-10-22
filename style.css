@@ -17,6 +17,10 @@
   --t-wd: #2f6db3;
   --t-sib: #b5462f;
   --t-rp: #7a4fa0;
+  --t-py: #3b7d4f;
+  --t-ep: #6b6b6b;
+  --t-dt: #b07a12;
+  --t-rd: #c03a6b;
   --serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -26,14 +30,14 @@
     --bg: #15181b; --panel: #1c2024; --ink: #e6e8ea; --muted: #9aa4ab; --line: #2e343a;
     --brand: #a6ce39; --brand-dark: #8eb22f; --accent: #b5d95a; --accent-ink: #11140a; --code-bg: #23282d;
     --ok: #6fd39a; --ok-bg: #173323; --bad: #f08f7f; --bad-bg: #3a1f1b; --warn-bg: #3a3218;
-    --t-wd: #6fa6e8; --t-sib: #e5866f; --t-rp: #b993dc;
+    --t-wd: #6fa6e8; --t-sib: #e5866f; --t-rp: #b993dc; --t-py: #7cc48f; --t-ep: #a9a9a9; --t-dt: #e0b04c; --t-rd: #ec82a8;
   }
 }
 :root[data-theme="dark"] {
   --bg: #15181b; --panel: #1c2024; --ink: #e6e8ea; --muted: #9aa4ab; --line: #2e343a;
   --brand: #a6ce39; --brand-dark: #8eb22f; --accent: #b5d95a; --accent-ink: #11140a; --code-bg: #23282d;
   --ok: #6fd39a; --ok-bg: #173323; --bad: #f08f7f; --bad-bg: #3a1f1b; --warn-bg: #3a3218;
-  --t-wd: #6fa6e8; --t-sib: #e5866f; --t-rp: #b993dc;
+  --t-wd: #6fa6e8; --t-sib: #e5866f; --t-rp: #b993dc; --t-py: #7cc48f; --t-ep: #a9a9a9; --t-dt: #e0b04c; --t-rd: #ec82a8;
 }
 
 * { box-sizing: border-box; }
@@ -155,3 +159,15 @@ summary { cursor: pointer; color: var(--accent); font-weight: 500; }
 .about { max-width: 760px; }
 .about h2 { margin-top: 28px; }
 .empty { color: var(--muted); }
+
+/* guides, answers, local endpoint */
+.step { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 2px; }
+.section h3 { font-size: 15px; margin: 16px 0 4px; font-family: var(--sans); }
+table.mini { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 8px 0; display: block; overflow-x: auto; }
+table.mini th, table.mini td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+table.mini th { font-size: 12px; color: var(--muted); font-weight: 600; }
+.done-card label, .connect label { display: block; font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+.done-card input, .connect input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); font: 14px var(--mono); }
+.done-card .actions, .connect .actions { flex-wrap: nowrap; }
+.tree-box .edge.any { stroke-dasharray: 4 4; }
+.section details { margin-top: 8px; }
