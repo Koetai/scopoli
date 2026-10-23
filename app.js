@@ -24,6 +24,8 @@ function markSolved(p) {
   state.solved[p.id] = Date.now();
   save(state);
   updateProgress();
+  const nav = document.querySelector(".pnav");
+  if (nav) nav.outerHTML = pageNav(p);
   return first;
 }
 
@@ -312,9 +314,33 @@ function wireEndpointForm(p) {
   input.addEventListener("keydown", (e) => { if (e.key === "Enter") go(); });
 }
 
+// Problems that are open now (prerequisites met, not solved), in course order,
+// starting after `p` and preferring its own chapter.
+function openAfter(p) {
+  const i = PROBLEMS.indexOf(p);
+  const ordered = [...PROBLEMS.slice(i + 1), ...PROBLEMS.slice(0, i)];
+  const open = ordered.filter((q) => !isSolved(q.id) && unsolvedPrereqs(q).length === 0);
+  return [...open.filter((q) => q.track === p.track), ...open.filter((q) => q.track !== p.track)];
+}
+
 function nextLinks(p) {
+  const btn = (c) => `<a class="btn" href="#/p/${c.id}">${c.id} · ${esc(c.title)} →</a>`;
   const unlocked = children(p.id).filter((c) => unsolvedPrereqs(c).length === 0 && !isSolved(c.id));
-  return unlocked.length ? `<div class="next">Unlocked: ${unlocked.map((c) => `<a class="btn" href="#/p/${c.id}">${c.id} · ${esc(c.title)} →</a>`).join("")}</div>` : "";
+  if (unlocked.length) return `<div class="next">Unlocked: ${unlocked.map(btn).join("")}</div>`;
+  const next = openAfter(p)[0];
+  if (next) return `<div class="next">Next up: ${btn(next)} <a href="#/tree">or pick from the tree</a></div>`;
+  return `<div class="next">That was the last open problem. <a class="btn" href="#/tree">View the tree</a></div>`;
+}
+
+// Previous / tree / next bar under every problem, so no page is a dead end.
+function pageNav(p) {
+  const i = PROBLEMS.indexOf(p), prev = PROBLEMS[i - 1], next = PROBLEMS[i + 1], open = openAfter(p)[0];
+  const link = (q, label) => q ? `<a href="#/p/${q.id}">${label}</a>` : "<span></span>";
+  return `<nav class="pnav">
+    ${link(prev, prev ? `← ${prev.id} · ${esc(prev.title)}` : "")}
+    <span class="pnav-mid">${open && !isSolved(p.id) ? "" : open ? `<a class="btn primary" href="#/p/${open.id}">Next open: ${open.id} →</a>` : ""} <a href="#/tree">Tree</a></span>
+    ${link(next, next ? `${next.id} · ${esc(next.title)} →` : "")}
+  </nav>`;
 }
 
 function problem(id) {
@@ -348,7 +374,8 @@ function problem(id) {
         </div>
       </div>
       <div class="editor-pane" id="pane"></div>
-    </div>`;
+    </div>
+    ${pageNav(p)}`;
   const pane = document.getElementById("pane");
 
   if (kind === "guide") {

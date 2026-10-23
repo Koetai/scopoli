@@ -171,3 +171,12 @@ table.mini th { font-size: 12px; color: var(--muted); font-weight: 600; }
 .done-card .actions, .connect .actions { flex-wrap: nowrap; }
 .tree-box .edge.any { stroke-dasharray: 4 4; }
 .section details { margin-top: 8px; }
+
+/* previous / tree / next bar under each problem */
+.pnav { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; margin: 32px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; }
+.pnav > a:last-child { text-align: right; }
+.pnav-mid { display: flex; gap: 12px; align-items: center; justify-content: center; }
+@media (max-width: 640px) {
+  .pnav { grid-template-columns: 1fr 1fr; }
+  .pnav-mid { grid-column: 1 / -1; grid-row: 1; }
+}
